@@ -34,12 +34,12 @@ def get_news(
     final_articles = []
     for art in articles_filtered:
         text = clean_html(art.get("summary", ""))
-        summary = summarize_text(text, sentences_count=3)
+        summary = summarize_text(text, sentences_count=3) if text.strip() else "Résumé indisponible."
         final_articles.append(Article(
             title=art["title"],
             summary=summary,
             source=art["source"],
-            date=parsedate_to_datetime(art["published"]) if art.get("published") else datetime.now(),
+            date=art.get("published_dt") or (parsedate_to_datetime(art["published"]) if art.get("published") else datetime.now()),
             url=art["link"],
             type=art.get("type", "general")  # Ajouter le type à l'article
         ))
