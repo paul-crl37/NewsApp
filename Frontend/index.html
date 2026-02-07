@@ -6,11 +6,20 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Actualité avec résumé</h1>
+    <header class="page-header">
+        <div>
+            <h1>Actualité avec résumé</h1>
+            <p class="subtitle">Un tableau de bord rapide pour surveiller les sources clés, filtrer et lire l'essentiel.</p>
+        </div>
+        <div class="quick-actions">
+            <button type="button" id="quickFigaroPolitique" class="secondary">Figaro · Politique</button>
+            <button type="button" id="quickReset" class="secondary">Réinitialiser</button>
+        </div>
+    </header>
     <form id="newsForm">
         <label>Date début : <input type="date" id="dateStart"></label>
         <label>Date fin : <input type="date" id="dateEnd"></label>
-        <label>Nombre max : <input type="number" id="maxArticles" value="10" min="1"></label>
+        <label>Nombre max : <input type="number" id="maxArticles" value="10" min="1" max="100"></label>
 
         <label>Types : <span class="hint">(sélection multiple possible)</span></label>
         <select id="typesSelect" multiple>
@@ -37,6 +46,10 @@
 
         <button type="submit">Rechercher</button>
     </form>
+    <section class="helper">
+        <h2>Conseil rapide</h2>
+        <p>Si un flux semble vide, cliquez sur “Vérifier les sources RSS” pour diagnostiquer l'état des sources.</p>
+    </section>
     <section class="status-section">
         <button type="button" id="checkFeeds">Vérifier les sources RSS</button>
         <div id="feedsStatus" class="status"></div>
