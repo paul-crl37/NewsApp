@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>News App avec Résumé</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Actualité avec résumé</h1>
+    <form id="newsForm">
+        <label>Date début : <input type="date" id="dateStart"></label>
+        <label>Date fin : <input type="date" id="dateEnd"></label>
+        <label>Nombre max : <input type="number" id="maxArticles" value="10"></label>
+        <button type="submit">Rechercher</button>
+    </form>
+    <div id="results"></div>
+
+    <form id="newsForm">
+    <label>Types :</label>
+    <select id="typesSelect" multiple>
+        <option value="politique">Politique</option>
+        <option value="defense">Defense</option>
+        <option value="economie">Economie</option>
+        <option value="regional">Regional</option>
+        <option value="general">General</option>
+    </select>
+
+    <label>Sites :</label>
+    <select id="sourcesSelect" multiple>
+        <option value="Le Figaro">Le Figaro</option>
+        <option value="Le Monde">Le Monde</option>
+        <option value="CNews">CNews</option>
+        <option value="Libération">Libération</option>
+        <option value="France Info">France Info</option>
+        <option value="La Nouvelle République">La Nouvelle République</option>
+        <option value="France Bleu">France Bleu</option>
+        <option value="Le JDD">Le JDD</option>
+        <option value="Les Echos">Les Echos</option>
+        <option value="Defense.gouv">Defense.gouv</option>
+    </select>
+
+    <button type="button" onclick="getNews()">Rechercher</button>
+</form>
+
+<div id="results"></div>
+
+<script>
+async function getNews() {
+    const typesSelect = document.getElementById('typesSelect');
+    const sourcesSelect = document.getElementById('sourcesSelect');
+
+    // Vérifier qu'ils existent
+    if (!typesSelect || !sourcesSelect) {
+        console.error("Sélecteurs non trouvés !");
+        return;
+    }
+
+    const types = Array.from(typesSelect.selectedOptions).map(opt => opt.value);
+    const sources = Array.from(sourcesSelect.selectedOptions).map(opt => opt.value);
+
+    const url = new URL('http://127.0.0.1:8000/news/');
+    types.forEach(t => url.searchParams.append('types', t));
+    sources.forEach(s => url.searchParams.append('sources', s));
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = data.map(a => `
+            <h3>${a.title} (${a.source})</h3>
+            <p>${a.summary}</p>
+            <a href="${a.url}" target="_blank">Lire l'article</a>
+            <hr>
+        `).join('');
+    } catch (err) {
+        console.error("Erreur fetch :", err);
+    }
+}
+</script>
+
+
+
+<script src="script.js"></script>
+</body>
+</html>

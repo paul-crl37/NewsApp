@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+form label {
+    margin-right: 10px;
+}
+#results {
+    margin-top: 20px;
+}
+.article {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.article h2 {
+    margin: 0;
+}
+.article p {
+    margin: 5px 0;
+}
