@@ -19,3 +19,7 @@ form label {
 .article p {
     margin: 5px 0;
 }
+.error {
+    color: #b00020;
+    font-weight: 600;
+}
