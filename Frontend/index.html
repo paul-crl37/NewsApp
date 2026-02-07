@@ -12,7 +12,7 @@
         <label>Date fin : <input type="date" id="dateEnd"></label>
         <label>Nombre max : <input type="number" id="maxArticles" value="10" min="1"></label>
 
-        <label>Types :</label>
+        <label>Types : <span class="hint">(sélection multiple possible)</span></label>
         <select id="typesSelect" multiple>
             <option value="politique">Politique</option>
             <option value="defense">Defense</option>
@@ -21,7 +21,7 @@
             <option value="general">General</option>
         </select>
 
-        <label>Sites :</label>
+        <label>Sites : <span class="hint">(sélection multiple possible)</span></label>
         <select id="sourcesSelect" multiple>
             <option value="Le Figaro">Le Figaro</option>
             <option value="Le Monde">Le Monde</option>
@@ -37,6 +37,10 @@
 
         <button type="submit">Rechercher</button>
     </form>
+    <section class="status-section">
+        <button type="button" id="checkFeeds">Vérifier les sources RSS</button>
+        <div id="feedsStatus" class="status"></div>
+    </section>
     <div id="results"></div>
 
     <script src="script.js"></script>

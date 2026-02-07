@@ -32,6 +32,9 @@ RSS_FEEDS = [
     {"url": "https://www.lemonde.fr/politique/rss_full.xml", "type": "politique", "source_name": "Le Monde"},
     {"url": "https://www.lemonde.fr/international/rss_full.xml", "type": "defense", "source_name": "Le Monde"},
     {"url": "https://www.lemonde.fr/economie/rss_full.xml", "type": "economie", "source_name": "Le Monde"},
+
+    # Les Echos
+    {"url": "https://www.lesechos.fr/rss/rss_une.xml", "type": "economie", "source_name": "Les Echos"},
 ]
 
 def get_articles_from_rss(max_articles=10, types: list = None, sources: list = None):
@@ -53,3 +56,23 @@ def get_articles_from_rss(max_articles=10, types: list = None, sources: list = N
                 "type": feed["type"]
             })
     return articles
+
+
+def get_rss_status():
+    status = []
+    for feed in RSS_FEEDS:
+        feed_data = feedparser.parse(feed["url"])
+        ok = not feed_data.bozo and len(feed_data.entries) > 0
+        error = None
+        if feed_data.bozo:
+            error = str(feed_data.bozo_exception)
+        elif not feed_data.entries:
+            error = "Aucune entrée trouvée"
+        status.append({
+            "source_name": feed["source_name"],
+            "type": feed["type"],
+            "url": feed["url"],
+            "ok": ok,
+            "error": error,
+        })
+    return status

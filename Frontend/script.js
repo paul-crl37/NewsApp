@@ -48,3 +48,36 @@ document.getElementById("newsForm").addEventListener("submit", async (e) => {
         console.error(error);
     }
 });
+
+document.getElementById("checkFeeds").addEventListener("click", async () => {
+    const statusContainer = document.getElementById("feedsStatus");
+    statusContainer.innerHTML = "<p>Vérification en cours...</p>";
+    try {
+        const res = await fetch("http://127.0.0.1:8000/news/feeds/status");
+        if (!res.ok) {
+            throw new Error(`Erreur API: ${res.status}`);
+        }
+        const data = await res.json();
+        const feedsHtml = data.feeds.map((feed) => `
+            <li class="${feed.ok ? "ok" : "error"}">
+                <strong>${feed.source_name}</strong> (${feed.type}) :
+                ${feed.ok ? "OK" : `Erreur - ${feed.error}`}
+                <a href="${feed.url}" target="_blank" rel="noopener noreferrer">Flux</a>
+            </li>
+        `).join("");
+        const categoriesHtml = Object.entries(data.categories).map(([type, info]) => `
+            <li class="${info.ok ? "ok" : "error"}">
+                <strong>${type}</strong> : ${info.ok ? "OK" : "KO"}
+            </li>
+        `).join("");
+        statusContainer.innerHTML = `
+            <h2>Statut des catégories</h2>
+            <ul>${categoriesHtml}</ul>
+            <h2>Statut des flux</h2>
+            <ul>${feedsHtml}</ul>
+        `;
+    } catch (error) {
+        statusContainer.innerHTML = "<p class=\"error\">Impossible de vérifier les flux.</p>";
+        console.error(error);
+    }
+});
