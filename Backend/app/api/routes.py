@@ -2,7 +2,7 @@ from fastapi import APIRouter, Query
 from typing import List, Optional
 from datetime import datetime
 from email.utils import parsedate_to_datetime
-from ..services.rss_reader import get_articles_from_rss
+from ..services.rss_reader import get_articles_from_rss, get_rss_status
 from ..services.article_parser import clean_html
 from ..services.summarizer import summarize_text
 from ..services.filter import filter_by_date
@@ -44,3 +44,18 @@ def get_news(
             type=art.get("type", "general")  # Ajouter le type à l'article
         ))
     return final_articles
+
+
+@router.get("/feeds/status")
+def get_feeds_status():
+    feeds = get_rss_status()
+    categories = {}
+    for feed in feeds:
+        categories.setdefault(feed["type"], {"ok": False, "sources": []})
+        categories[feed["type"]]["ok"] = categories[feed["type"]]["ok"] or feed["ok"]
+        categories[feed["type"]]["sources"].append({
+            "source_name": feed["source_name"],
+            "ok": feed["ok"],
+            "url": feed["url"],
+        })
+    return {"feeds": feeds, "categories": categories}

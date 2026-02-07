@@ -5,8 +5,34 @@ body {
 form label {
     margin-right: 10px;
 }
+.hint {
+    color: #666;
+    font-size: 0.85em;
+}
 #results {
     margin-top: 20px;
+}
+.status-section {
+    margin-top: 20px;
+}
+.status {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+}
+.status ul {
+    list-style: none;
+    padding-left: 0;
+}
+.status li {
+    margin-bottom: 6px;
+}
+.status .ok {
+    color: #1b5e20;
+}
+.status .error {
+    color: #b00020;
+    font-weight: 600;
 }
 .article {
     border: 1px solid #ccc;
