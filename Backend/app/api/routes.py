@@ -19,6 +19,8 @@ def get_news(
     sources: Optional[List[str]] = Query(None, description="Liste des sites (Le Figaro, Le Monde, etc.)")
 ):
     # Convertir les dates
+    date_start = date_start or None
+    date_end = date_end or None
     ds = datetime.strptime(date_start, "%Y-%m-%d") if date_start else None
     de = datetime.strptime(date_end, "%Y-%m-%d") if date_end else None
 
